@@ -18,37 +18,37 @@ get_ipython().run_line_magic('matplotlib', 'inline')
 from datetime import datetime
 
 
-# In[3]:
+# In[2]:
 
 
 pip install dataeader
 
 
-# In[2]:
+# In[3]:
 
 
 import datareader
 
 
-# In[3]:
+# In[4]:
 
 
 data = pd.read_csv('C:\Files for python projects\Tesla.csv')
 
 
-# In[4]:
+# In[5]:
 
 
 data.head()
 
 
-# In[5]:
+# In[6]:
 
 
 data.describe
 
 
-# In[16]:
+# In[7]:
 
 
 import pandas as pd
@@ -59,14 +59,14 @@ plt.style.use('ggplot')
 plt.rcParams['figure.figsize'] = (15, 10)
 
 
-# In[6]:
+# In[8]:
 
 
 data['Date'] = pd.DatetimeIndex(data['Date']).year
 # adding a new year into our dataset
 
 
-# In[7]:
+# In[9]:
 
 
 tempdf = data.groupby('Date',as_index=False).sum()
@@ -74,20 +74,20 @@ tempdf.plot('Date',['Open','Close','High','Low'],kind = 'bar')
 # how our data looks from troughout 7 years
 
 
-# In[8]:
+# In[10]:
 
 
 x = data.groupby('Date').sum().sort_values('Volume', ascending = False)
 x.plot.bar( y='Volume', rot=0)
 
 
-# In[9]:
+# In[11]:
 
 
 data.groupby('Date')['Date'].agg('count').plot(kind='pie',title='Date')
 
 
-# In[10]:
+# In[12]:
 
 
 newDf = data[(data.Date==2013)]
@@ -97,7 +97,7 @@ x = s.to_dict()
 x
 
 
-# In[11]:
+# In[13]:
 
 
 def yearlyAllocatedData(years_dict,totalSize):
@@ -107,13 +107,13 @@ def yearlyAllocatedData(years_dict,totalSize):
     return allocation
 
 
-# In[12]:
+# In[14]:
 
 
 print(yearlyAllocatedData(x,len(data)))
 
 
-# In[13]:
+# In[15]:
 
 
 data = data[data['Date'] != 2013]
@@ -126,7 +126,7 @@ data
 Graphical visualisation within the set years
 
 
-# In[14]:
+# In[16]:
 
 
 fig = plt.figure(figsize=(25,20))
@@ -164,14 +164,14 @@ plt.show()
 
 
 
-# In[15]:
+# In[17]:
 
 
 data['PriceDiff'] = data['Close'].shift(-1) - data['Close']
 print(data['PriceDiff'])
 
 
-# In[53]:
+# In[18]:
 
 
 import os
@@ -183,14 +183,14 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
 
-# In[17]:
+# In[19]:
 
 
 data['PriceDiff'] = data['Close'].shift(-1) - data['Close']
 print(data['PriceDiff'])
 
 
-# In[18]:
+# In[20]:
 
 
 data['ma50'] = data['Close'].rolling(50).mean()
@@ -202,14 +202,14 @@ plt.legend()
 plt.show()
 
 
-# In[19]:
+# In[21]:
 
 
 data['LogReturn'] = np.log(data['Close']).shift(-1) - np.log(data['Close'])
 print(data['LogReturn'])
 
 
-# In[57]:
+# In[22]:
 
 
 data['MA10'] = data['Close'].rolling(10).mean()
@@ -218,13 +218,13 @@ data = data.dropna()
 data.head()
 
 
-# In[58]:
+# In[23]:
 
 
 data['Shares'] = [1 if data.loc[ei, 'MA10']>data.loc[ei, 'MA50'] else 0 for ei in data.index]
 
 
-# In[59]:
+# In[24]:
 
 
 data['Close1'] = data['Close'].shift(-1)
@@ -233,7 +233,7 @@ data['Profit'].plot()
 plt.axhline(y=0, color='red')
 
 
-# In[60]:
+# In[25]:
 
 
 data['wealth'] = data['Profit'].cumsum()
@@ -246,25 +246,25 @@ data.tail()
 pip install pandas_datareader
 
 
-# In[29]:
+# In[27]:
 
 
 from pandas_datareader import data
 
 
-# In[31]:
+# In[38]:
 
 
 data = data.DataReader('TSLA', 'yahoo',start='1/1/2000')
 
 
-# In[32]:
+# In[29]:
 
 
 time_elapsed = (data.index[-1] - data.index[0]).days
 
 
-# In[33]:
+# In[30]:
 
 
 price_ratio = (data['Adj Close'][-1] / data['Adj Close'][1])
@@ -273,33 +273,33 @@ cagr = price_ratio ** inverse_number_of_years - 1
 print(cagr)
 
 
-# In[34]:
+# In[31]:
 
 
 vol = data['Adj Close'].pct_change().std()
 
 
-# In[35]:
+# In[32]:
 
 
 number_of_trading_days = 252
 vol = vol * math.sqrt(number_of_trading_days)
 
 
-# In[36]:
+# In[33]:
 
 
 print ("cagr (mean returns) : ", str(round(cagr,4)))
 print ("vol (standard deviation of return : )", str(round(vol,4)))
 
 
-# In[37]:
+# In[34]:
 
 
 daily_return_percentages = np.random.normal(cagr/number_of_trading_days, vol/math.sqrt(number_of_trading_days),number_of_trading_days)+1
 
 
-# In[38]:
+# In[35]:
 
 
 price_series = [data['Adj Close'][-1]]
@@ -308,14 +308,14 @@ for drp in daily_return_percentages:
     price_series.append(price_series[-1] * drp)
 
 
-# In[39]:
+# In[36]:
 
 
 plt.plot(price_series)
 plt.show()
 
 
-# In[40]:
+# In[37]:
 
 
 number_of_trials = 10000
@@ -330,7 +330,7 @@ for i in range(number_of_trials):
 plt.show()
 
 
-# In[44]:
+# In[38]:
 
 
 ending_price_points = []
@@ -352,14 +352,14 @@ plt.hist(ending_price_points,bins=50)
 plt.show()
 
 
-# In[46]:
+# In[39]:
 
 
 expected_ending_price_point = round(np.mean(ending_price_points),2)
 print("Expected Ending Price Point : ", str(expected_ending_price_point))
 
 
-# In[47]:
+# In[40]:
 
 
 population_mean = (cagr+1) * data['Adj Close'][-1]
@@ -368,7 +368,7 @@ print ("Population Mean: ", str(round(population_mean,2)));
 print ("Percent Difference : ", str(round((population_mean - expected_ending_price_point)/population_mean * 100,2)), "%")
 
 
-# In[48]:
+# In[41]:
 
 
 top_ten = np.percentile(ending_price_points,100-10)
