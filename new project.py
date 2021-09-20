@@ -252,7 +252,7 @@ pip install pandas_datareader
 from pandas_datareader import data
 
 
-# In[38]:
+# In[28]:
 
 
 data = data.DataReader('TSLA', 'yahoo',start='1/1/2000')
